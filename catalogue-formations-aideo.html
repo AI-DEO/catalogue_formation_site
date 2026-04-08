@@ -1375,13 +1375,13 @@ function TrainerSection() {
 
 // ─── Catalogue View ────────────────────────────────────────────────────────
 
-function CatalogueView({ onSelect, onInscription }) {
+function CatalogueView({ onSelect, onInscription, allFormations }) {
   const [activeCategory, setActiveCategory] = useState("all");
 
   const filtered =
     activeCategory === "all"
-      ? formations
-      : formations.filter((f) => f.category === activeCategory);
+      ? allFormations
+      : allFormations.filter((f) => f.category === activeCategory);
 
   const activeCat = categories.find((c) => c.id === activeCategory);
 
@@ -1619,7 +1619,7 @@ function CatalogueView({ onSelect, onInscription }) {
 
 // ─── Formation Detail View ─────────────────────────────────────────────────
 
-function FormationDetail({ formation, onBack, onSelect, onInscription, onContact }) {
+function FormationDetail({ formation, onBack, onSelect, onInscription, onContact, allFormations }) {
   const cat = categories.find((c) => c.id === formation.category);
   const accentColor = cat?.color || COLORS.orange;
   const hasSessions = formation.sessions.length > 0;
@@ -2838,12 +2838,82 @@ function PreInscriptionModal({ formation, session, onClose }) {
   );
 }
 
+// ─── Formation-Notion mapping ─────────────────────────────────────────────
+const NOTION_TO_ID = {
+  "ChatGPT / Claude N1": "ia-n1",
+  "ChatGPT N2": "chatgpt-n2",
+  "Claude N2": "claude-n2",
+  "Réseaux Sociaux & IA": "reseaux-sociaux",
+  "Créa Image & Vidéo IA": "images-videos",
+  "Canva N1": "canva-n1",
+  "Notion pour les pros": "notion",
+};
+
+function formatDateFr(dateStr, dateFinStr) {
+  const mois = ["janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre"];
+  const d = new Date(dateStr);
+  const jour = d.getDate();
+  const m = mois[d.getMonth()];
+  const a = d.getFullYear();
+  if (dateFinStr) {
+    const d2 = new Date(dateFinStr);
+    if (d.getMonth() === d2.getMonth()) {
+      return `${jour}-${d2.getDate()} ${m} ${a}`;
+    }
+    return `${jour} ${m} - ${d2.getDate()} ${mois[d2.getMonth()]} ${a}`;
+  }
+  return `${jour} ${m} ${a}`;
+}
+
 // ─── App ───────────────────────────────────────────────────────────────────
 
 function App() {
   const [selected, setSelected] = useState(null);
   const [inscription, setInscription] = useState(null);
   const [contact, setContact] = useState(null);
+  const [dynamicFormations, setDynamicFormations] = useState(formations);
+
+  // Load sessions from n8n webhook
+  useEffect(() => {
+    fetch("https://n8n.srv1336558.hstgr.cloud/webhook/sessions-formations")
+      .then((r) => r.json())
+      .then((data) => {
+        const sessionsData = data.sessions || data;
+        const sessionsByFormation = {};
+
+        (Array.isArray(sessionsData) ? sessionsData : []).forEach((s) => {
+          const formationName = s.formation || "";
+          const formationId = NOTION_TO_ID[formationName];
+          if (!formationId) return;
+
+          if (!sessionsByFormation[formationId]) {
+            sessionsByFormation[formationId] = [];
+          }
+
+          sessionsByFormation[formationId].push({
+            date: formatDateFr(s.date, s.dateFin),
+            placesLeft: s.placesRestantes || 10,
+            dateISO: s.date,
+          });
+        });
+
+        // Sort sessions by date (closest first)
+        Object.keys(sessionsByFormation).forEach((id) => {
+          sessionsByFormation[id].sort((a, b) => new Date(a.dateISO) - new Date(b.dateISO));
+        });
+
+        // Update formations with dynamic sessions
+        const updated = formations.map((f) => ({
+          ...f,
+          sessions: sessionsByFormation[f.id] || [],
+        }));
+
+        setDynamicFormations(updated);
+      })
+      .catch(() => {
+        // Si le webhook ne répond pas, on garde les données en dur
+      });
+  }, []);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -2871,9 +2941,9 @@ function App() {
 
       
       {selected ? (
-        <FormationDetail formation={selected} onBack={() => setSelected(null)} onSelect={(f) => setSelected(f)} onInscription={handleInscription} onContact={handleContact} />
+        <FormationDetail formation={selected} onBack={() => setSelected(null)} onSelect={(f) => setSelected(f)} onInscription={handleInscription} onContact={handleContact} allFormations={dynamicFormations} />
       ) : (
-        <CatalogueView onSelect={(f) => setSelected(f)} onInscription={handleInscription} />
+        <CatalogueView onSelect={(f) => setSelected(f)} onInscription={handleInscription} allFormations={dynamicFormations} />
       )}
       {inscription && (
         <PreInscriptionModal
