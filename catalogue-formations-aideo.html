@@ -2249,6 +2249,11 @@ function ContactModal({ formation, onClose }) {
   const [sent, setSent] = useState(false);
   const [selectedFormation, setSelectedFormation] = useState(formation);
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.parent.postMessage({ type: 'scrollTop' }, '*');
+  }, []);
+
   const handleChange = (field, value) => {
     setForm((prev) => ({ ...prev, [field]: value }));
   };
@@ -2306,9 +2311,10 @@ function ContactModal({ formation, onClose }) {
         background: "rgba(0,0,0,0.5)",
         zIndex: 1000,
         display: "flex",
-        alignItems: "center",
+        alignItems: "flex-start",
         justifyContent: "center",
-        padding: 20,
+        padding: "40px 20px",
+        overflow: "auto",
       }}
     >
       <div
@@ -2489,6 +2495,11 @@ function PreInscriptionModal({ formation, session, onClose }) {
   const [selectedFormation, setSelectedFormation] = useState(formation);
   const [selectedSession, setSelectedSession] = useState(session);
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.parent.postMessage({ type: 'scrollTop' }, '*');
+  }, []);
+
   // Update sessions when formation changes
   const handleFormationChange = (formationId) => {
     const f = formations.find((x) => x.id === formationId);
@@ -2553,9 +2564,10 @@ function PreInscriptionModal({ formation, session, onClose }) {
         background: "rgba(0,0,0,0.5)",
         zIndex: 1000,
         display: "flex",
-        alignItems: "center",
+        alignItems: "flex-start",
         justifyContent: "center",
-        padding: 20,
+        padding: "40px 20px",
+        overflow: "auto",
       }}
     >
       <div
@@ -2835,6 +2847,7 @@ function App() {
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
+    try { window.parent.scrollTo({ top: document.getElementById('catalogue-iframe') ? document.getElementById('catalogue-iframe').getBoundingClientRect().top + window.parent.pageYOffset - 80 : 0, behavior: 'smooth' }); } catch(e) {}
     window.parent.postMessage({ type: 'scrollTop' }, '*');
   }, [selected]);
 
