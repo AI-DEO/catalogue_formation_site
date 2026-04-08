@@ -2812,5 +2812,17 @@ function App() {
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(React.createElement(App));
   </script>
+
+  <script>
+    function sendHeight() {
+      var height = document.body.scrollHeight;
+      window.parent.postMessage({ type: 'resize', height: height }, '*');
+    }
+    window.addEventListener('load', function() {
+      sendHeight();
+      setInterval(sendHeight, 300);
+    });
+    window.addEventListener('resize', sendHeight);
+  </script>
 </body>
 </html>
