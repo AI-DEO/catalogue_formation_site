@@ -2835,6 +2835,7 @@ function App() {
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
+    window.parent.postMessage({ type: 'scrollTop' }, '*');
   }, [selected]);
 
   const handleInscription = (formation, session) => {
