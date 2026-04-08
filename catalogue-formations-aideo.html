@@ -254,6 +254,47 @@ const formations = [
     ],
   },
   {
+    id: "canva-n1",
+    title: "Canva — Niveau 1",
+    subtitle: "Créez vos visuels professionnels en toute autonomie",
+    category: "contenu-creatif",
+    level: "Débutant",
+    duration: "1 jour (7h)",
+    price: 350,
+    maxPlaces: 10,
+    sessions: [],
+    description:
+      "Le grand avantage de Canva : créer des visuels beaux et pertinents sans aucune connaissance technique en graphisme ou en informatique. En une journée, vous découvrez l'interface, les modèles, les outils IA de Canva. Vous configurez votre identité visuelle et l'appliquez en un clic à tous vos supports. Vous repartez autonome et opérationnel.",
+    objectives: [
+      "Prendre en main l'interface Canva et ses modèles",
+      "Configurer votre Kit de marque (logo, couleurs, polices)",
+      "Créer et adapter des visuels professionnels",
+      "Utiliser les outils IA de Canva (Magic Design, suppression de fond, écriture)",
+      "Décliner vos visuels sur plusieurs formats (flyer, post, story)",
+      "Exporter et partager vos créations",
+    ],
+    audience: [
+      "Indépendants et chefs d'entreprise",
+      "Salariés de TPE/PME",
+      "Tout professionnel souhaitant créer ses propres visuels",
+    ],
+    prerequisites: [
+      "Ordinateur portable ou tablette avec connexion internet",
+      "Aucune connaissance graphique ou technique requise",
+      "Canva Pro conseillé pour le Kit de marque et les outils IA avancés (13€/mois)",
+    ],
+    location: "L'Annexe Vivre le Bassin — La Teste-de-Buch",
+    programme: [
+      { time: "Jour 1", title: "Découvrir, comprendre et créer", items: ["Présentation de Canva et ses versions", "Interface, navigation, fondamentaux du graphisme", "Choisir et adapter un modèle, modifier textes, images, couleurs", "Configurer son Kit de marque et l'appliquer en un clic", "Outils IA : Magic Design, génération d'image, suppression de fond, animation", "Typographie avancée, déclinaison multi-formats (flyer, post, story)", "Export PNG, PDF, JPG — partage et collaboration"] },
+    ],
+    outcomes: [
+      "Vous maîtrisez l'interface Canva et savez créer des visuels professionnels",
+      "Votre Kit de marque est configuré et applicable en un clic à tous vos supports",
+      "Vous utilisez les outils IA de Canva pour gagner du temps et de la créativité",
+      "Vous êtes autonome pour décliner vos visuels sur tous les formats",
+    ],
+  },
+  {
     id: "notion",
     title: "Notion pour les pros",
     subtitle: "Organiser, centraliser, gagner du temps",
@@ -351,8 +392,6 @@ function Badge({ children, variant = "default", style }) {
     </span>
   );
 }
-
-// ─── Header ────────────────────────────────────────────────────────────────
 
 
 function Hero() {
@@ -1595,6 +1634,29 @@ function FormationDetail({ formation, onBack, onSelect, onInscription, onContact
         }}
       >
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+          <button
+            onClick={onBack}
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 6,
+              background: "rgba(255,255,255,0.1)",
+              border: "none",
+              color: COLORS.gray400,
+              fontSize: 13,
+              fontWeight: 600,
+              fontFamily: "'Outfit', sans-serif",
+              padding: "8px 14px",
+              borderRadius: 8,
+              cursor: "pointer",
+              marginBottom: 14,
+              transition: "all 0.2s",
+            }}
+            onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(255,255,255,0.2)"; e.currentTarget.style.color = COLORS.white; }}
+            onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(255,255,255,0.1)"; e.currentTarget.style.color = COLORS.gray400; }}
+          >
+            ← Retour au catalogue
+          </button>
           <div style={{ display: "flex", gap: 8, marginBottom: 10, flexWrap: "wrap" }}>
             <Badge variant="level">{formation.level}</Badge>
             <Badge variant="default" style={{ background: "rgba(255,255,255,0.1)", color: COLORS.gray400 }}>{formation.duration}</Badge>
@@ -2057,19 +2119,19 @@ function FAQ({ accentColor }) {
   const faqs = [
     {
       q: "Je n'y connais rien en IA ni en informatique, c'est quand même pour moi ?",
-      a: "Bien sûr, et c'est justement pour ça que cette formation existe. Les formations Niveau 1 sont conçues pour partir de zéro, pas de jargon technique, pas de prérequis en informatique. On avance ensemble, étape par étape, à votre rythme. Et grâce à l'entretien découverte que l'on fait avant la formation, je connais déjà votre niveau et vos attentes, ce qui me permet d'adapter mon accompagnement pour que vous soyez à l'aise dès les premières minutes. Vous serez surpris(e) de tout ce que vous saurez faire en fin de journée.",
+      a: "Bien sûr, et c'est justement pour ça que ces formations existent. Toutes les formations Niveau 1 sont conçues pour partir de zéro — pas de jargon technique, pas de prérequis en informatique. On avance ensemble, étape par étape, à votre rythme. Et grâce à l'entretien découverte que l'on fait avant la formation, je connais déjà votre niveau et vos attentes, ce qui me permet d'adapter mon accompagnement pour que vous soyez à l'aise dès les premières minutes. Vous serez surpris(e) de tout ce que vous saurez faire en fin de journée.",
     },
     {
       q: "Quelle est la différence entre ChatGPT et Claude ?",
-      a: "Ce sont deux outils d'IA générative, chacun avec ses propres forces et ses limites. Plutôt que de vous perdre dans les comparatifs techniques, c'est lors de notre entretien préalable que je vous conseillerai l'outil le plus adapté à votre activité et à vos besoins concrets. Pour le Niveau 1, les bases sont très proches d'un outil à l'autre, ça ne change pas grand-chose. En revanche, pour le Niveau 2, il est important d'avoir fait votre choix pour en tirer le meilleur. Bonne nouvelle : il est tout à fait possible d'apporter du contexte et des données d'un outil à l'autre, donc rien n'est figé.",
+      a: "Ce sont deux outils d'IA générative, chacun avec ses propres forces et ses limites. Plutôt que de vous perdre dans les comparatifs techniques, c'est lors de notre entretien préalable que je vous conseillerai l'outil le plus adapté à votre activité et à vos besoins concrets. Pour le Niveau 1, les bases sont très proches d'un outil à l'autre — ça ne change pas grand-chose. En revanche, pour le Niveau 2, il est important d'avoir fait votre choix pour en tirer le meilleur. Bonne nouvelle : il est tout à fait possible de transférer du contexte et des données d'un outil à l'autre, donc rien n'est figé.",
     },
     {
       q: "Est-ce que je peux venir avec un collègue ou un salarié ?",
-      a: "Absolument, et c'est même une très bonne idée. Chaque participant bénéficie de son propre entretien découverte et travaille sur ses propres cas d'usage pendant la formation. C'est d'ailleurs souvent plus riche quand plusieurs personnes d'une même structure participent, les échanges sont plus concrets. Côté financement, la prise en charge OPCO ou FAF fonctionne par personne, donc chacun peut monter son propre dossier.",
+      a: "Absolument, et c'est même une très bonne idée. Chaque participant bénéficie de son propre entretien découverte et travaille sur ses propres cas d'usage pendant la formation. C'est d'ailleurs souvent plus riche quand plusieurs personnes d'une même structure participent — les échanges sont plus concrets. Côté financement, la prise en charge OPCO ou FAF fonctionne par personne, donc chacun peut monter son propre dossier.",
     },
     {
       q: "Un compte payant est-il obligatoire ?",
-      a: "Je le recommande vraiment, oui. Avec un compte gratuit, vous serez très vite limité(e) dans l'utilisation, et surtout vous ne bénéficierez pas de toute la puissance des outils intégrés, c'est-à-dire précisément ce qui rend l'IA vraiment utile au quotidien. Pas d'inquiétude cependant : on voit tout ça ensemble lors de l'entretien découverte, je vous guide pour choisir la formule la plus adaptée à votre usage et à votre budget. Ça prend 5 minutes à mettre en place.",
+      a: "Pour les formations ChatGPT et Claude, je le recommande vraiment. Sans abonnement, vous serez très vite limité(e) et ne bénéficierez pas de toute la puissance des outils intégrés — c'est-à-dire précisément ce qui rend l'IA vraiment utile au quotidien. Pour Canva, la version gratuite fonctionne, mais l'abonnement Pro (13€/mois) est nécessaire pour accéder au Kit de marque et aux outils IA avancés — un vrai gain de temps. Pour Notion, un compte gratuit suffit pour démarrer. Pas d'inquiétude : on voit tout ça ensemble lors de l'entretien découverte, je vous guide pour choisir la bonne formule.",
     },
     {
       q: "Et si je dois annuler ou reporter ?",
@@ -2080,8 +2142,16 @@ function FAQ({ accentColor }) {
       a: "Il y a de très bonnes chances, oui. Mes tarifs correspondent en moyenne à ce que les organismes financeurs prennent habituellement en charge, ce qui facilite beaucoup l'acceptation des dossiers. Cela dit, cela peut aussi dépendre du budget formation que vous avez déjà utilisé dans l'année, c'est propre à chaque situation. Pour en avoir le cœur net, il faut déposer la demande auprès de votre organisme, et c'est justement là que je vous accompagne : dès votre pré-inscription, je prépare l'ensemble des documents nécessaires (devis, programme, convention) et je vous guide dans toute la démarche administrative, du début jusqu'à la réponse. Un point important à savoir : ces formations ne sont pas éligibles au CPF, uniquement aux financements OPCO et FAF.",
     },
     {
+      q: "Je n'ai aucune connaissance en graphisme ou en informatique, la formation Canva est-elle pour moi ?",
+      a: "Absolument, et c'est précisément pour ça que cette formation existe. Canva est conçu pour permettre à n'importe qui de créer des visuels professionnels, sans aucune compétence graphique ni informatique. Pendant la formation, on part de modèles existants qu'on adapte ensemble à votre image, vos couleurs, votre identité. Pas besoin de savoir dessiner, ni de maîtriser un logiciel complexe. À la fin de la journée, vous repartez avec votre Kit de marque configuré et des visuels prêts à utiliser — en toute autonomie.",
+    },
+    {
+      q: "Je n'ai jamais utilisé Notion, est-ce que la formation est adaptée ?",
+      a: "Oui, la formation Notion part de zéro. On commence par comprendre la logique de l'outil — qui est un peu différente d'un simple tableur ou d'un traitement de texte — puis on construit ensemble, pas à pas, vos propres espaces de travail. À la fin des deux jours, vous aurez un système fonctionnel, adapté à votre activité, que vous pourrez faire évoluer en toute autonomie.",
+    },
+    {
       q: "Le Niveau 1 est-il obligatoire pour suivre le Niveau 2 ?",
-      a: "Ce n'est pas obligatoire, mais c'est fortement conseillé. Si vous utilisez déjà l'IA régulièrement dans votre quotidien professionnel, il est tout à fait possible de rejoindre directement le Niveau 2, c'est justement ce qu'on détermine ensemble lors de l'entretien découverte. Il peut y avoir quelques bases à consolider pour que vous soyez pleinement à l'aise pendant la journée. Je préfère m'en assurer avec vous en amont plutôt que de vous mettre en difficulté le jour J.",
+      a: "Ce n'est pas obligatoire, mais c'est fortement conseillé. Si vous utilisez déjà l'IA régulièrement dans votre quotidien professionnel, il est tout à fait possible de rejoindre directement le Niveau 2 — c'est justement ce qu'on détermine ensemble lors de l'entretien découverte. Il peut y avoir quelques bases à consolider pour que vous soyez pleinement à l'aise pendant la journée. Je préfère m'en assurer avec vous en amont plutôt que de vous mettre en difficulté le jour J.",
       category: "advanced",
     },
     {
@@ -2812,7 +2882,6 @@ function App() {
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(React.createElement(App));
   </script>
-
   <script>
     function sendHeight() {
       var height = document.body.scrollHeight;
