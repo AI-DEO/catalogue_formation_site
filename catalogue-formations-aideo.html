@@ -2878,7 +2878,9 @@ function App() {
     fetch("https://n8n.srv1336558.hstgr.cloud/webhook/sessions-formations")
       .then((r) => r.json())
       .then((data) => {
-        const sessionsData = data.sessions || data;
+        // Handle both [{sessions:[...]}] and {sessions:[...]} formats
+        const raw = Array.isArray(data) ? data[0] : data;
+        const sessionsData = raw.sessions || raw;
         const sessionsByFormation = {};
 
         (Array.isArray(sessionsData) ? sessionsData : []).forEach((s) => {
