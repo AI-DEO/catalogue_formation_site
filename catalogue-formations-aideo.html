@@ -2302,7 +2302,7 @@ function ContactModal({ formation, onClose }) {
   };
 
   const handleSubmit = () => {
-    if (form.nom && form.email) {
+    if (form.nom && form.prenom && form.email) {
       fetch("https://n8n.srv1336558.hstgr.cloud/webhook/preinscription-formation", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
