@@ -2308,7 +2308,7 @@ function ContactModal({ formation, onClose }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           nom: form.nom,
-          prenom: "",
+          prenom: form.prenom,
           email: form.email,
           telephone: form.telephone,
           entreprise: "",
