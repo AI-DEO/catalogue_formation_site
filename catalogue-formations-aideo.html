@@ -1969,10 +1969,31 @@ function FormationDetail({ formation, onBack, onSelect, onInscription, onContact
               </div>
             ) : null}
 
-            {/* Contact / Demande particulière */}
-            <div style={{ marginTop: hasSessions ? 14 : 0, paddingTop: hasSessions ? 14 : 0, borderTop: hasSessions ? `1px solid ${COLORS.gray200}` : "none" }}>
+            {/* 2 boutons : Connaître les prochaines dates + Demande particulière */}
+            <div style={{ marginTop: hasSessions ? 14 : 0, paddingTop: hasSessions ? 14 : 0, borderTop: hasSessions ? `1px solid ${COLORS.gray200}` : "none", display: "grid", gap: 8 }}>
               <button
-                onClick={() => { if (onContact) onContact(formation); }}
+                onClick={() => { if (onContact) onContact(formation, "dates"); }}
+                style={{
+                  width: "100%",
+                  padding: "12px",
+                  borderRadius: 10,
+                  border: `1.5px solid ${COLORS.turquoise}40`,
+                  background: `${COLORS.turquoise}10`,
+                  color: COLORS.dark,
+                  fontFamily: "'Outfit', sans-serif",
+                  fontWeight: 600,
+                  fontSize: 13,
+                  cursor: "pointer",
+                  textAlign: "center",
+                  transition: "all 0.2s",
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.boxShadow = "0 4px 16px rgba(0,0,0,0.1)"}
+                onMouseLeave={(e) => e.currentTarget.style.boxShadow = "none"}
+              >
+                📅 Connaître les prochaines dates
+              </button>
+              <button
+                onClick={() => { if (onContact) onContact(formation, "particuliere"); }}
                 style={{
                   width: "100%",
                   padding: "12px",
@@ -1990,11 +2011,10 @@ function FormationDetail({ formation, onBack, onSelect, onInscription, onContact
                 onMouseEnter={(e) => e.currentTarget.style.boxShadow = "0 4px 16px rgba(0,0,0,0.1)"}
                 onMouseLeave={(e) => e.currentTarget.style.boxShadow = "none"}
               >
-                📬 Connaître les prochaines dates ou demande particulière ?
+                📬 Demande particulière
               </button>
             </div>
           </div>
-
 
           {/* Lieu */}
           <div
