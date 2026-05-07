@@ -2299,9 +2299,7 @@ function FAQ({ accentColor }) {
 
 // ─── App ───────────────────────────────────────────────────────────────────
 
-// ─── Contact / Demande Modal ───────────────────────────────────────────────
-
-function ContactModal({ formation, onClose }) {
+function ContactModal({ formation, mode, onClose }) {
   const [form, setForm] = useState({
     nom: "",
     prenom: "",
@@ -2311,6 +2309,26 @@ function ContactModal({ formation, onClose }) {
   });
   const [sent, setSent] = useState(false);
   const [selectedFormation, setSelectedFormation] = useState(formation);
+
+  // Configuration selon le mode
+  const isDateMode = mode === "dates";
+  const config = {
+    headerTitle: isDateMode ? "📅 Connaître les prochaines dates" : "📬 Demande particulière",
+    bannerEmoji: isDateMode ? "📅" : "📬",
+    bannerTitle: isDateMode ? "Soyez prévenu(e) en priorité !" : "Parlons-en !",
+    bannerText: isDateMode
+      ? "Aucune des dates actuelles ne vous convient ou aucune date n'est encore programmée ? Laissez-moi vos coordonnées : je vous préviens dès qu'une nouvelle session est ouverte."
+      : "Vous êtes intéressé(e) par cette formation mais aucune des dates ne vous convient ? Ou vous avez une demande particulière (intra-entreprise, format adapté, contenu spécifique...) ? Laissez-moi un petit mot ci-dessous, je reviens vers vous rapidement.",
+    btnColor: isDateMode ? COLORS.turquoise : COLORS.turquoise,
+    successTitle: isDateMode ? `C'est noté, ${form.prenom} !` : `Merci ${form.prenom} !`,
+    successText: isDateMode
+      ? "Vous serez prévenu(e) en priorité dès qu'une nouvelle session sera ouverte pour cette formation."
+      : "Votre message est bien reçu. Je reviens vers vous très rapidement pour en discuter ensemble.",
+    webhookUrl: isDateMode
+      ? "https://n8n.srv1336558.hstgr.cloud/webhook/demande-dates-formation"
+      : "https://n8n.srv1336558.hstgr.cloud/webhook/preinscription-formation",
+    type: isDateMode ? "demande_dates" : "demande_particuliere",
+  };
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -2323,7 +2341,7 @@ function ContactModal({ formation, onClose }) {
 
   const handleSubmit = () => {
     if (form.nom && form.prenom && form.email) {
-      fetch("https://n8n.srv1336558.hstgr.cloud/webhook/preinscription-formation", {
+      fetch(config.webhookUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -2334,9 +2352,9 @@ function ContactModal({ formation, onClose }) {
           entreprise: "",
           financement: "",
           formation: selectedFormation.title,
-          dateSession: "Demande particulière",
+          dateSession: isDateMode ? "Demande de prochaines dates" : "Demande particulière",
           message: form.message,
-          type: "demande_particuliere",
+          type: config.type,
         }),
       }).catch(() => {});
       setSent(true);
@@ -2429,14 +2447,14 @@ function ContactModal({ formation, onClose }) {
               color: COLORS.white,
             }}
           >
-            📬 Parlons-en !
+            {config.headerTitle}
           </div>
         </div>
 
         {!sent ? (
           <div style={{ padding: "24px 28px" }}>
 
-            {/* Info banner */}
+            {/* Info banner adapté au mode */}
             <div
               style={{
                 background: `${COLORS.turquoise}10`,
@@ -2449,7 +2467,8 @@ function ContactModal({ formation, onClose }) {
                 lineHeight: 1.6,
               }}
             >
-              Vous êtes intéressé(e) par cette formation mais aucune des dates ne vous convient ? Ou vous avez une demande particulière (intra-entreprise, format adapté, contenu spécifique...) ? Laissez-moi un petit mot ci-dessous, je reviens vers vous rapidement.
+              {config.bannerEmoji} <strong>{config.bannerTitle}</strong><br />
+              {config.bannerText}
             </div>
 
             {/* Formation selector */}
@@ -2501,7 +2520,7 @@ function ContactModal({ formation, onClose }) {
                   resize: "vertical",
                   minHeight: 80,
                 }}
-                placeholder="Vos disponibilités, une période souhaitée, une question..."
+                placeholder={isDateMode ? "Vos disponibilités souhaitées, une période, etc." : "Vos disponibilités, une période souhaitée, une question..."}
               />
             </div>
 
@@ -2513,7 +2532,7 @@ function ContactModal({ formation, onClose }) {
                 padding: "15px",
                 borderRadius: 12,
                 border: "none",
-                background: COLORS.turquoise,
+                background: config.btnColor,
                 color: COLORS.white,
                 fontFamily: "'Outfit', sans-serif",
                 fontWeight: 700,
@@ -2536,19 +2555,19 @@ function ContactModal({ formation, onClose }) {
                 marginBottom: 8,
               }}
             >
-              C'est envoyé !
+              {config.successTitle}
             </div>
             <p style={{ fontSize: 15, color: COLORS.gray600, lineHeight: 1.7, margin: "0 0 24px" }}>
-              Je reviens vers vous très vite.
+              {config.successText}
             </p>
             <button
               onClick={onClose}
               style={{
                 padding: "12px 32px",
                 borderRadius: 10,
-                border: `2px solid ${COLORS.turquoise}`,
+                border: `2px solid ${config.btnColor}`,
                 background: "transparent",
-                color: COLORS.turquoise,
+                color: config.btnColor,
                 fontFamily: "'Outfit', sans-serif",
                 fontWeight: 700,
                 fontSize: 15,
