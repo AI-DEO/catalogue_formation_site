@@ -803,7 +803,7 @@ function CategoryTabs({ active, onChange }) {
 
 // ─── Formation Card ────────────────────────────────────────────────────────
 
-function FormationCard({ formation, onSelect, onInscription }) {
+function FormationCard({ formation, onSelect, onInscription, onContact }) {
   const [hovered, setHovered] = useState(false);
   const cat = categories.find((c) => c.id === formation.category);
   const accentColor = cat?.color || COLORS.orange;
