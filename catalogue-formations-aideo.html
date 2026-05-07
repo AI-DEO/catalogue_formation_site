@@ -3163,8 +3163,8 @@ function App() {
     setInscription({ formation, session });
   };
 
-  const handleContact = (formation) => {
-    setContact(formation);
+  const handleContact = (formation, mode) => {
+    setContact({ formation, mode });
   };
 
   return (
