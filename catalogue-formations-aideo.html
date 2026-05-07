@@ -2675,168 +2675,341 @@ function PreInscriptionModal({ formation, session, onClose }) {
 
         {!sent ? (
           <div style={{ padding: "24px 28px" }}>
-            {/* Info banner */}
+            {/* Stepper */}
             <div
               style={{
-                background: `${COLORS.orange}08`,
-                border: `1px solid ${COLORS.orange}20`,
-                borderRadius: 10,
-                padding: "12px 16px",
-                marginBottom: 20,
-                fontSize: 13,
-                color: COLORS.gray800,
-                lineHeight: 1.6,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: 8,
+                marginBottom: 18,
               }}
             >
-              📝 Cette pré-inscription est <strong>sans engagement</strong>.
-              Choisissez directement votre créneau pour notre échange préalable en visio gratuit de 30-45 min.
-              Votre place sera confirmée seulement après notre échange.
-            </div>
-
-            {/* Formation & Session selectors */}
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginBottom: 14 }}>
-              <div>
-                <label style={labelStyle}>Formation *</label>
-                <select
-                  value={selectedFormation.id}
-                  onChange={(e) => handleFormationChange(e.target.value)}
-                  style={{ ...inputStyle, appearance: "auto", cursor: "pointer" }}
-                >
-                  {formations.map((f) => (
-                    <option key={f.id} value={f.id}>{f.title}</option>
-                  ))}
-                </select>
-              </div>
-              <div>
-                <label style={labelStyle}>Date de session *</label>
-                {selectedFormation.sessions.length > 0 ? (
-                  <select
-                    value={selectedSession ? selectedSession.date : ""}
-                    onChange={(e) => {
-                      const s = selectedFormation.sessions.find((x) => x.date === e.target.value);
-                      setSelectedSession(s || null);
-                    }}
-                    style={{ ...inputStyle, appearance: "auto", cursor: "pointer" }}
-                  >
-                    {selectedFormation.sessions.map((s, i) => (
-                      <option key={i} value={s.date}>{s.date}</option>
-                    ))}
-                  </select>
-                ) : (
-                  <div style={{ ...inputStyle, background: COLORS.gray50, color: COLORS.gray600, display: "flex", alignItems: "center" }}>
-                    Dates à venir — vous serez prévenu(e)
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {/* Form */}
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
-              <div>
-                <label style={labelStyle}>Nom *</label>
-                <input
-                  type="text"
-                  value={form.nom}
-                  onChange={(e) => handleChange("nom", e.target.value)}
-                  style={inputStyle}
-                  placeholder="Dupont"
-                />
-              </div>
-              <div>
-                <label style={labelStyle}>Prénom *</label>
-                <input
-                  type="text"
-                  value={form.prenom}
-                  onChange={(e) => handleChange("prenom", e.target.value)}
-                  style={inputStyle}
-                  placeholder="Marie"
-                />
-              </div>
-            </div>
-
-            <div style={{ marginTop: 14 }}>
-              <label style={labelStyle}>Email professionnel *</label>
-              <input
-                type="email"
-                value={form.email}
-                onChange={(e) => handleChange("email", e.target.value)}
-                style={inputStyle}
-                placeholder="marie@entreprise.fr"
-              />
-            </div>
-
-            <div style={{ marginTop: 14 }}>
-              <label style={labelStyle}>Téléphone *</label>
-              <input
-                type="tel"
-                value={form.telephone}
-                onChange={(e) => handleChange("telephone", e.target.value)}
-                style={inputStyle}
-                placeholder="06 12 34 56 78"
-              />
-            </div>
-
-            <div style={{ marginTop: 14 }}>
-              <label style={labelStyle}>Entreprise / Organisation</label>
-              <input
-                type="text"
-                value={form.entreprise}
-                onChange={(e) => handleChange("entreprise", e.target.value)}
-                style={inputStyle}
-                placeholder="Nom de votre entreprise"
-              />
-            </div>
-
-            <div style={{ marginTop: 14 }}>
-              <label style={labelStyle}>Financement OPCO / FAF ?</label>
-              <select
-                value={form.opco}
-                onChange={(e) => handleChange("opco", e.target.value)}
+              <div
                 style={{
-                  ...inputStyle,
-                  appearance: "auto",
-                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 6,
+                  padding: "5px 11px",
+                  borderRadius: 20,
+                  background: step === 1 ? COLORS.orange : `${COLORS.orange}20`,
+                  color: step === 1 ? COLORS.white : COLORS.orange,
+                  fontFamily: "'Outfit', sans-serif",
+                  fontWeight: 700,
+                  fontSize: 12,
                 }}
               >
-                <option value="ne_sait_pas">Je veux un financement, je ne connais pas mon OPCO ou FAF</option>
-                <option value="oui_opco">Oui, par mon OPCO (je le connais)</option>
-                <option value="oui_faf">Oui, par mon FAF (je le connais)</option>
-                <option value="non">Non, je finance moi-même</option>
-              </select>
+                <span
+                  style={{
+                    width: 18,
+                    height: 18,
+                    borderRadius: "50%",
+                    background: step === 1 ? COLORS.white : COLORS.orange,
+                    color: step === 1 ? COLORS.orange : COLORS.white,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: 11,
+                    fontWeight: 800,
+                  }}
+                >
+                  1
+                </span>
+                Vos informations
+              </div>
+              <span style={{ color: COLORS.gray400, fontSize: 14 }}>→</span>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 6,
+                  padding: "5px 11px",
+                  borderRadius: 20,
+                  background: step === 2 ? COLORS.orange : COLORS.gray100,
+                  color: step === 2 ? COLORS.white : COLORS.gray600,
+                  fontFamily: "'Outfit', sans-serif",
+                  fontWeight: 700,
+                  fontSize: 12,
+                }}
+              >
+                <span
+                  style={{
+                    width: 18,
+                    height: 18,
+                    borderRadius: "50%",
+                    background: step === 2 ? COLORS.white : COLORS.gray400,
+                    color: step === 2 ? COLORS.orange : COLORS.white,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: 11,
+                    fontWeight: 800,
+                  }}
+                >
+                  2
+                </span>
+                Réservation
+              </div>
             </div>
 
-            <button
-              onClick={handleSubmit}
-              style={{
-                width: "100%",
-                marginTop: 20,
-                padding: "15px",
-                borderRadius: 12,
-                border: "none",
-                background: COLORS.orange,
-                color: COLORS.white,
-                fontFamily: "'Outfit', sans-serif",
-                fontWeight: 700,
-                fontSize: 16,
-                cursor: "pointer",
-              }}
-            >
-              Envoyer ma pré-inscription →
-            </button>
+            {step === 1 && (
+              <>
+                {/* Info banner */}
+                <div
+                  style={{
+                    background: `${COLORS.orange}08`,
+                    border: `1px solid ${COLORS.orange}20`,
+                    borderRadius: 10,
+                    padding: "12px 16px",
+                    marginBottom: 20,
+                    fontSize: 13,
+                    color: COLORS.gray800,
+                    lineHeight: 1.6,
+                  }}
+                >
+                  📝 Pré-inscription <strong>sans engagement</strong>. Choisissez directement votre créneau pour notre échange préalable en visio. Votre place en formation sera confirmée après cet entretien.
+                </div>
 
-            <p
-              style={{
-                textAlign: "center",
-                fontSize: 11,
-                color: COLORS.gray600,
-                marginTop: 12,
-                marginBottom: 0,
-                lineHeight: 1.5,
-              }}
-            >
-              🎓 Je vous accompagne dans toutes les démarches de financement.
-              <br />* Champs obligatoires
-            </p>
+                {/* Formation & Session selectors */}
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginBottom: 14 }}>
+                  <div>
+                    <label style={labelStyle}>Formation *</label>
+                    <select
+                      value={selectedFormation.id}
+                      onChange={(e) => handleFormationChange(e.target.value)}
+                      style={{ ...inputStyle, appearance: "auto", cursor: "pointer" }}
+                    >
+                      {formations.map((f) => (
+                        <option key={f.id} value={f.id}>{f.title}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <label style={labelStyle}>Date de session *</label>
+                    {selectedFormation.sessions.length > 0 ? (
+                      <select
+                        value={selectedSession ? selectedSession.date : ""}
+                        onChange={(e) => {
+                          const s = selectedFormation.sessions.find((x) => x.date === e.target.value);
+                          setSelectedSession(s || null);
+                        }}
+                        style={{ ...inputStyle, appearance: "auto", cursor: "pointer" }}
+                      >
+                        {selectedFormation.sessions.map((s, i) => (
+                          <option key={i} value={s.date}>{s.date}</option>
+                        ))}
+                      </select>
+                    ) : (
+                      <div style={{ ...inputStyle, background: COLORS.gray50, color: COLORS.gray600, display: "flex", alignItems: "center" }}>
+                        Dates à venir — vous serez prévenu(e)
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Form */}
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
+                  <div>
+                    <label style={labelStyle}>Nom *</label>
+                    <input
+                      type="text"
+                      value={form.nom}
+                      onChange={(e) => handleChange("nom", e.target.value)}
+                      style={inputStyle}
+                      placeholder="Dupont"
+                    />
+                  </div>
+                  <div>
+                    <label style={labelStyle}>Prénom *</label>
+                    <input
+                      type="text"
+                      value={form.prenom}
+                      onChange={(e) => handleChange("prenom", e.target.value)}
+                      style={inputStyle}
+                      placeholder="Marie"
+                    />
+                  </div>
+                </div>
+
+                <div style={{ marginTop: 14 }}>
+                  <label style={labelStyle}>Email professionnel *</label>
+                  <input
+                    type="email"
+                    value={form.email}
+                    onChange={(e) => handleChange("email", e.target.value)}
+                    style={inputStyle}
+                    placeholder="marie@entreprise.fr"
+                  />
+                </div>
+
+                <div style={{ marginTop: 14 }}>
+                  <label style={labelStyle}>Téléphone *</label>
+                  <input
+                    type="tel"
+                    value={form.telephone}
+                    onChange={(e) => handleChange("telephone", e.target.value)}
+                    style={inputStyle}
+                    placeholder="06 12 34 56 78"
+                  />
+                </div>
+
+                <div style={{ marginTop: 14 }}>
+                  <label style={labelStyle}>Entreprise / Organisation</label>
+                  <input
+                    type="text"
+                    value={form.entreprise}
+                    onChange={(e) => handleChange("entreprise", e.target.value)}
+                    style={inputStyle}
+                    placeholder="Nom de votre entreprise"
+                  />
+                </div>
+
+                <div style={{ marginTop: 14 }}>
+                  <label style={labelStyle}>Financement OPCO / FAF ?</label>
+                  <select
+                    value={form.opco}
+                    onChange={(e) => handleChange("opco", e.target.value)}
+                    style={{
+                      ...inputStyle,
+                      appearance: "auto",
+                      cursor: "pointer",
+                    }}
+                  >
+                    <option value="ne_sait_pas">Je veux un financement, je ne connais pas mon OPCO ou FAF</option>
+                    <option value="oui_opco">Oui, par mon OPCO (je le connais)</option>
+                    <option value="oui_faf">Oui, par mon FAF (je le connais)</option>
+                    <option value="non">Non, je finance moi-même</option>
+                  </select>
+                </div>
+
+                <button
+                  onClick={() => {
+                    if (form.nom && form.prenom && form.email && form.telephone) {
+                      setStep(2);
+                    } else {
+                      alert("Merci de remplir tous les champs obligatoires (*)");
+                    }
+                  }}
+                  style={{
+                    width: "100%",
+                    marginTop: 20,
+                    padding: "15px",
+                    borderRadius: 12,
+                    border: "none",
+                    background: COLORS.orange,
+                    color: COLORS.white,
+                    fontFamily: "'Outfit', sans-serif",
+                    fontWeight: 700,
+                    fontSize: 16,
+                    cursor: "pointer",
+                  }}
+                >
+                  Continuer →
+                </button>
+
+                <p
+                  style={{
+                    textAlign: "center",
+                    fontSize: 11,
+                    color: COLORS.gray600,
+                    marginTop: 12,
+                    marginBottom: 0,
+                    lineHeight: 1.5,
+                  }}
+                >
+                  🎓 Je vous accompagne dans toutes les démarches de financement.
+                  <br />* Champs obligatoires
+                </p>
+              </>
+            )}
+
+            {step === 2 && (
+              <>
+                {/* Info banner étape 2 */}
+                <div
+                  style={{
+                    background: `${COLORS.turquoise}10`,
+                    border: `1px solid ${COLORS.turquoise}30`,
+                    borderRadius: 10,
+                    padding: "12px 16px",
+                    marginBottom: 18,
+                    fontSize: 13,
+                    color: COLORS.gray800,
+                    lineHeight: 1.6,
+                  }}
+                >
+                  📅 <strong>Réservez votre créneau</strong> pour notre échange préalable en visio (30 min). Choisissez le moment qui vous arrange dans le calendrier ci-dessous, puis validez votre pré-inscription.
+                </div>
+
+                {/* Iframe Google Calendar */}
+                <div
+                  style={{
+                    borderRadius: 12,
+                    overflow: "hidden",
+                    border: `1.5px solid ${COLORS.gray200}`,
+                    marginBottom: 18,
+                  }}
+                >
+                  <iframe
+                    src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ1g95rYAQJlaAcZca4SCag6bcPdjn3fYP8Y65HM8ag7s3_1hkCexAelZGg6ZupStSd4Lk5aDEZK?gv=true"
+                    style={{ border: 0, width: "100%", height: 600 }}
+                    frameBorder="0"
+                    title="Réserver un entretien préalable"
+                  ></iframe>
+                </div>
+
+                {/* Boutons retour + envoi */}
+                <div style={{ display: "flex", gap: 10 }}>
+                  <button
+                    onClick={() => setStep(1)}
+                    style={{
+                      padding: "15px 20px",
+                      borderRadius: 12,
+                      border: `1.5px solid ${COLORS.gray200}`,
+                      background: COLORS.white,
+                      color: COLORS.gray800,
+                      fontFamily: "'Outfit', sans-serif",
+                      fontWeight: 600,
+                      fontSize: 14,
+                      cursor: "pointer",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    ← Retour
+                  </button>
+                  <button
+                    onClick={handleSubmit}
+                    style={{
+                      flex: 1,
+                      padding: "15px",
+                      borderRadius: 12,
+                      border: "none",
+                      background: COLORS.orange,
+                      color: COLORS.white,
+                      fontFamily: "'Outfit', sans-serif",
+                      fontWeight: 700,
+                      fontSize: 16,
+                      cursor: "pointer",
+                    }}
+                  >
+                    Envoyer ma pré-inscription →
+                  </button>
+                </div>
+
+                <p
+                  style={{
+                    textAlign: "center",
+                    fontSize: 11,
+                    color: COLORS.gray600,
+                    marginTop: 12,
+                    marginBottom: 0,
+                    lineHeight: 1.5,
+                  }}
+                >
+                  Une fois votre créneau réservé dans le calendrier ci-dessus,<br />cliquez sur "Envoyer ma pré-inscription" pour finaliser.
+                </p>
+              </>
+            )}
           </div>
         ) : (
           <div style={{ padding: "40px 28px", textAlign: "center" }}>
