@@ -2540,6 +2540,7 @@ function PreInscriptionModal({ formation, session, onClose }) {
     opco: "ne_sait_pas",
   });
   const [sent, setSent] = useState(false);
+  const [step, setStep] = useState(1);
   const [selectedFormation, setSelectedFormation] = useState(formation);
   const [selectedSession, setSelectedSession] = useState(session);
 
