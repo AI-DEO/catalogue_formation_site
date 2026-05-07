@@ -3192,7 +3192,8 @@ function App() {
       )}
       {contact && (
         <ContactModal
-          formation={contact}
+          formation={contact.formation}
+          mode={contact.mode}
           onClose={() => setContact(null)}
         />
       )}
