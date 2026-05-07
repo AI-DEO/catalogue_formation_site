@@ -3220,7 +3220,7 @@ function App() {
       {selected ? (
         <FormationDetail formation={selected} onBack={() => setSelected(null)} onSelect={(f) => setSelected(f)} onInscription={handleInscription} onContact={handleContact} allFormations={dynamicFormations} />
       ) : (
-        <CatalogueView onSelect={(f) => setSelected(f)} onInscription={handleInscription} allFormations={dynamicFormations} />
+        <CatalogueView onSelect={(f) => setSelected(f)} onInscription={handleInscription} onContact={handleContact} allFormations={dynamicFormations} />
       )}
       {inscription && (
         <PreInscriptionModal
