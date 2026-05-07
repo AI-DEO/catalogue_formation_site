@@ -1147,7 +1147,7 @@ function FormationCard({ formation, onSelect, onInscription }) {
                   fontSize: 14,
                   cursor: "pointer",
                 }}
-                onClick={() => { if (onInscription) onInscription(formation, null); }}
+                onClick={() => { if (onContact) onContact(formation, "dates"); }}
               >
                 Demander les prochaines dates
               </button>
