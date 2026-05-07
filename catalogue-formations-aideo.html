@@ -3106,7 +3106,7 @@ function formatDateFr(dateStr, dateFinStr) {
 function App() {
   const [selected, setSelected] = useState(null);
   const [inscription, setInscription] = useState(null);
-  const [contact, setContact] = useState(null);
+  const [contact, setContact] = useState(null); // { formation, mode: "dates" | "particuliere" }
   const [dynamicFormations, setDynamicFormations] = useState(formations);
 
   // Load sessions from n8n webhook
