@@ -3020,10 +3020,10 @@ function PreInscriptionModal({ formation, session, onClose }) {
                 fontSize: 22,
                 fontWeight: 800,
                 color: COLORS.dark,
-                marginBottom: 8,
+                marginBottom: 12,
               }}
             >
-              Pré-inscription envoyée !
+              Merci {form.prenom} !
             </div>
             <p
               style={{
@@ -3033,9 +3033,7 @@ function PreInscriptionModal({ formation, session, onClose }) {
                 margin: "0 0 24px",
               }}
             >
-              Merci {form.prenom} ! Je vous recontacte très vite pour organiser
-              notre entretien découverte de 30 minutes
-              {selectedSession ? ` avant la session du ${selectedSession.date}` : ""}.
+              Votre pré-inscription est bien enregistrée. On se retrouve très bientôt en visio pour échanger sur votre activité et préparer votre formation sur-mesure.
             </p>
             <button
               onClick={onClose}
